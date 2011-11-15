@@ -1,0 +1,16 @@
+KNOWN ISSUES
+============
+
+* When you launch henwer, sometimes the menubar doesn't appear.
+  It seems to be a known bug with Ubuntu:
+  https://bugs.launchpad.net/ubuntu/+source/pythoncard/+bug/763864 .
+  I have wxPython 2.8 but I still have this annoying bug.
+  
+* When you want to open a URL and you select a site, the program
+  sometimes freezes. At this point I use a thread, so there must 
+  be something wrong with that.
+
+----------
+
+If you have a solution for these problems, let me know. Contributions
+are welcome :)

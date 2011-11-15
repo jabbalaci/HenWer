@@ -1,0 +1,121 @@
+OVERVIEW
+========
+
+HenWer is a simple image viewer for online and local images. The project 
+was written in Python using the wxPython graphical library.
+
+HenWer supports only one site at the moment (http://fetish.iiichan.net/)
+but it is quite easy to write an extractor module for your favourite
+site.
+
+HenWer is a fork of ManWer (http://code.google.com/p/manwer/). ManWer was 
+written by Matteo Bana, however it seems that he abandoned his project. 
+HenWer adds some new (and hopefully useful) features.
+
+
+START
+=====
+
+To execute the program, just launch start.py .
+
+It is suggested that you customize a bit the file 'preferences'. Here specify 
+correctly save_dir (where to save the images) and tmp_dir (for storing
+temporary files).
+
+After launching the program, you can get a help by pressing 'H'. Study well
+the keyboard bindings because the majority of the features are only accessible
+via the keyboard.
+
+
+REQUIREMENTS
+============
+
+HenWer requires the following Python packages:
+
+* wxPython 2.8 (http://www.wxpython.org/)
+  [for Linux users: make sure to install version 2.8, not 2.6]
+* PIL (http://www.pythonware.com/products/pil/)
+* BeautifulSoup (http://www.crummy.com/software/BeautifulSoup/)
+  [currently this one is included in the distribution, but we may
+  remove it in the future]
+  
+Make sure that they are installed.
+  
+
+USE CASES
+=========
+
+Let's see some typical use cases.
+
+(1) You are browsing an online gallery and you like some images.
+
+If you like an image then mark it to be saved by pressing 'S'. In the 
+bottom left hand corner you'll have a feedback. You can also get some
+extra information by pressing 'I'. 
+ATTENTION! These images are NOT YET saved. You have to commit your
+changes explicitly by pressing 'C' or by clicking on 'Commit' in the
+toolbar.
+
+(2) The online gallery is awesome, you want to get all those images.
+
+Press 'A' to select all images to be saved, then press 'C' to commit
+your changes. The images will be saved in the save_dir directory that
+you specified in your 'preferences' file.
+
+(3) You are browsing a local directory and you want to delete some images.
+
+If you dislike an image, just press 'D'. When you are done, commit
+your changes with 'C'. HenWer will stay at the current image or, if
+it's deleted, it will position you intelligently to the next image.
+
+(4) If you would like to see an image as your wallpaper, mark it with 'W'.
+After commit it'll be saved to your wallpapers_dir (specified in the
+'preferences' file).
+
+(5) You like a gallery, you want to get all the images and then you
+    want to browse them locally.
+    
+Select all images with 'A', then commit with 'C' to save them. When
+ready, choose 'Options' -> 'Switch to local dir.'. It also works when
+you save just some images.
+
+
+IMPLEMENTATION NOTES
+====================
+
+Or: HOW TO WRITE AN EXTRACTOR MODULE FOR YOUR FAVOURITE SITE.
+
+For example, a normal module will only need the following methods:
+ - gather_gallery_list: 
+       returns a tuple of two lists, containing the list of galleries and their URLs
+ - get_referer:
+       some sites try to protect their contents, you might need to use this trick
+ - get_relative_save_dir:
+       When the user chooses the site and the gallery, this function will combine
+       them to a directory name where the images will be saved. This combined
+       directory will be created under save_dir.
+
+The image URLs from a given HTML page are extracted with screenscraper.py .
+ 
+Place your module in the backend directory, and you're done. Your module will be avaiable
+for use in the Open URL dialog.
+
+Other infos are avaiable in the source code.
+
+
+LICENSE
+=======
+
+This program is licensed under GNU General Public License v3. For
+more details see the comments in start.py .
+
+
+CONTACT
+=======
+
+The maintainer of this project is Jabba Laci. 
+You can contact me at jabba.laci@gmail.com .
+The project is developed on GitHub: https://github.com/jabbalaci/HenWer .
+
+If you have any suggestion, or you have a module for your favourite site, let me know. 
+

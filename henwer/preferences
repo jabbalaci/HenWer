@@ -1,0 +1,13 @@
+[Options]
+color = (0, 0, 0)
+show_tray = False
+
+[Linux]
+save_dir = "/trash/henwer"
+tmp_dir = "/trash/henwer/tmp"
+wallpapers_dir = "/trash/henwer/wallpapers"
+
+[Windows]
+save_dir = r"e:\trash\henwer"
+tmp_dir = r"e:\trash\henwer\tmp"
+wallpapers_dir = r"e:\trash\henwer\wallpapers"

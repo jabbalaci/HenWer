@@ -1,0 +1,36 @@
+CHANGES
+=======
+
+2011-11-14:
+I didn't touch this project for 2 years :( Now it's time to polish
+it a bit.
+* By pressing 'Y' you can copy the absolute path of the current
+  image to the clipboard (Linux only at the moment).
+* As a command-line parameter, you can pass a directory name and
+  henwer will open that folder automatically. "henwer ." also works,
+  i.e. open the current directory.
+
+2009-11-27:
+* by pressing 'R' you can jump to a random image in the gallery (v0.1f)
+
+2009-11-24:
+* the user is notified if he has some uncommitted changes (v0.1e)
+
+2009-11-22:
+* saving wallpapers is done (v0.1c)
+* 'Options' -> 'Switch to local dir.' is added (v0.1d)
+
+2009-11-21:
+* images can be marked with 'W' to be saved as wallpapers
+  (saving is not yet ready)
+
+2009-11-19:
+* BeautifulSoup.py is added to the distribution
+
+2009-11-19:
+* Project HenWer is created at Google code.
+  The project's home page is http://code.google.com/p/henwer/.
+* Initial commit.
+* a featured download is added (v0.1)
+* New feature: when you save or delete an image, an OSD text
+  is displayed in the top left hand corner (v0.1b).
