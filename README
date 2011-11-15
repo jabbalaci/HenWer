@@ -6,7 +6,8 @@ was written in Python using the wxPython graphical library.
 
 HenWer supports only one site at the moment (http://fetish.iiichan.net/)
 but it is quite easy to write an extractor module for your favourite
-site.
+site. The name HenWer stands for "Hentai vieWer" but of course it can
+be used as a general-purpose image viewer.
 
 HenWer is a fork of ManWer (http://code.google.com/p/manwer/). ManWer was 
 written by Matteo Bana, however it seems that he abandoned his project. 
