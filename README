@@ -13,6 +13,9 @@ HenWer is a fork of ManWer (http://code.google.com/p/manwer/). ManWer was
 written by Matteo Bana, however it seems that he abandoned his project. 
 HenWer adds some new (and hopefully useful) features.
 
+My primary test platform is Linux. If you find some problems under Windows,
+let me know.
+
 
 START
 =====
