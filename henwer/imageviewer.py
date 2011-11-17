@@ -228,6 +228,9 @@ class ImageWindow(wx.ScrolledWindow):
         self.parent.set_status_text()
         self.parent.set_commit()
         self.parent.set_osd_text()
+
+        if img.to_save:
+            self.parent.on_next(event)
         
     def toggle_to_delete(self, event):
         if self.image is None:
@@ -244,6 +247,9 @@ class ImageWindow(wx.ScrolledWindow):
         self.parent.set_status_text()
         self.parent.set_commit()
         self.parent.set_osd_text()
+
+        if img.to_delete:
+            self.parent.on_next(event)
         
     def toggle_to_wallpaper(self, event):
         if self.image is None:
