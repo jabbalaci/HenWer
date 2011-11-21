@@ -28,6 +28,8 @@ def process_command_line_parameter():
     if len(sys.argv) > 1:
         if sys.argv[1] == '.':
             sys.argv[1] = os.getcwd()
+        elif os.path.isfile(sys.argv[1]):
+            sys.argv[1] = os.path.join(os.getcwd(), sys.argv[1])
 
     os.chdir(os.path.dirname(__file__))
 # process_command_line_parameter

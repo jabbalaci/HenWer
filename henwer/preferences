@@ -1,6 +1,7 @@
 [Options]
 color = (0, 0, 0)
 show_tray = False
+fullscreen = True
 
 [Linux]
 save_dir = "/trash/henwer"

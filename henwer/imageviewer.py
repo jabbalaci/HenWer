@@ -323,7 +323,7 @@ class ImageWindow(wx.ScrolledWindow):
         
     def goto_random_img(self, event):
         nb_imgs = len(self.parent.filelist)   # number of images 
-        if  nb_imgs in [0, 1]:
+        if nb_imgs in [0, 1]:
             return
         # else
         jump_to = random.randrange(1, nb_imgs+1)   # interval [1, nb_imgs]

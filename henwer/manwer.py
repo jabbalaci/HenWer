@@ -115,6 +115,7 @@ class MReader(wx.Frame):
                             #                    1 for a local dir.
         self.n = -1
         self.backcolour = resources.get_preferences("Options").get('color', (0, 0, 0))
+        self.fullscreen = resources.get_preferences("Options").get('fullscreen', 'False')
         self.dc = imageviewer.ImageWindow(self)
         self.img_zoom_percent = 0
         self.save = 1   #0 = do not save
@@ -256,8 +257,19 @@ class MReader(wx.Frame):
         if len(sys.argv) > 1:
             if os.path.isdir(sys.argv[1]):
                 self.open_dir(None, dir_to_open=sys.argv[1])
+            elif os.path.isfile(sys.argv[1]):
+                (dir_name, file_name) = os.path.split(sys.argv[1])
+                self.open_dir(None, dir_to_open=dir_name)
+                for index,e in enumerate(self.filelist):
+                    if e.file_name == file_name:
+                        break # and use index
+                self.n = index-1        # -1 to step on the previous image
+                self.on_next(None)      # step forward to the specified image
             else:
-                print '# error: {0} is not a valid directory.'.format(sys.argv[1])
+                print '# error: {0} is not a valid directory / file.'.format(sys.argv[1])
+
+        if self.fullscreen:
+            self.toggle_maximize(None)
     
     def toggle_maximize(self, event):
         self.Maximize(not self.IsMaximized()) 
