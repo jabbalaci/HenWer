@@ -11,6 +11,7 @@ from cStringIO import StringIO
 import Image # PIL.Image Module
 import random
 from clipboard import text_to_clipboards
+import config as cfg
 
 
 def bmp_to_pil(image):
@@ -144,7 +145,8 @@ class ImageWindow(wx.ScrolledWindow):
                      ord('D'):               self.toggle_to_delete,
                      ord('W'):               self.toggle_to_wallpaper,
                      ord('C'):               self.parent.commit_changes,
-                     ord('A'):               self.mark_all_to_be_saved,                     
+                     ord('A'):               self.mark_all_to_be_saved,
+                     ord('O'):               self.mark_asterisk,
                      wx.WXK_F11:             self.toggle_fullscreen,
                      wx.WXK_NUMPAD_ADD:      self.zoom_in, #+ on the numpad
                      wx.WXK_NUMPAD_SUBTRACT: self.zoom_out #- on the numpad
@@ -212,6 +214,8 @@ class ImageWindow(wx.ScrolledWindow):
         img = self.parent.filelist[self.parent.n]
         self.parent.SetStatusText(img.path, 0)
         text_to_clipboards(img.path)
+        #
+        self.mark_asterisk(None)
         
     def toggle_to_save(self, event):
         if self.image is None:
@@ -260,6 +264,19 @@ class ImageWindow(wx.ScrolledWindow):
         self.parent.set_status_text()
         self.parent.set_commit()
         self.parent.set_osd_text()
+        
+    def mark_asterisk(self, event):
+        if self.image is None:
+            return
+        # else
+        img = self.parent.filelist[self.parent.n]
+        img.asterisk = not img.asterisk
+#        self.parent.set_status_text()
+#        self.parent.set_commit()
+        self.parent.set_osd_text()
+        if cfg.USE_MONGO:
+            import mongodb
+            mongodb.process(img)
     
     def on_size(self, event):
         #print sys._getframe().f_code.co_name
@@ -322,6 +339,14 @@ class ImageWindow(wx.ScrolledWindow):
         self.parent.on_next(event)           # step forward to the specified image
         
     def goto_random_img(self, event):
+        """Dispatcher."""
+        if not cfg.RANDOM_JUMP_TO_UNMARKED:
+            self.goto_random_img_classic(event)
+        else:
+            self.goto_random_img_unmarked(event)
+        
+    def goto_random_img_classic(self, event):
+        """Jump to a random image."""
         nb_imgs = len(self.parent.filelist)   # number of images 
         if nb_imgs in [0, 1]:
             return
@@ -329,6 +354,9 @@ class ImageWindow(wx.ScrolledWindow):
         jump_to = random.randrange(1, nb_imgs+1)   # interval [1, nb_imgs]
         self.parent.n = jump_to-1-1   # -1 because of 0-based index, -1 to step on the previous image
         self.parent.on_next(event)    # step forward to the specified image
+        
+    def goto_random_img_unmarked(self, event):
+        pass
         
     def mark_all_to_be_saved(self, event):
         if len(self.parent.filelist) == 0:

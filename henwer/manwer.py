@@ -372,8 +372,8 @@ class MReader(wx.Frame):
         we choose another action (open dir., close application)
         that might result in losing the changes. So notify the user."""
         if commit.there_is_something_to_commit(self):
-            str = "You've made some changes.\nDo you want to commit them?"
-            dial = wx.MessageDialog(None, str, 'Question', 
+            msg = "You've made some changes.\nDo you want to commit them?"
+            dial = wx.MessageDialog(None, msg, 'Question', 
                                     wx.YES_NO | wx.YES_DEFAULT | wx.ICON_QUESTION)
             if dial.ShowModal() == wx.ID_YES:
                 self.commit_changes(event, confirmation = False)
@@ -523,7 +523,7 @@ class MReader(wx.Frame):
         else: # images are in a local directory
             self.image = wx.Image(img.path)
         
-        img.set_attributes()
+        img.set_attributes(self.image)
         self.set_status_text()
         #self.SetStatusText("Image: %s/%s" % (self.n+1, len(self.filelist)), 1)
         self.paint()
@@ -573,7 +573,7 @@ class MReader(wx.Frame):
         else:   # local dir.
             self.image = wx.Image(img.path)
 
-        img.set_attributes()
+        img.set_attributes(self.image)
         self.set_status_text()
         #self.SetStatusText("Image: %s/%s" % (self.n+1, len(self.filelist)), 1)
         self.paint()
@@ -639,19 +639,19 @@ class MReader(wx.Frame):
     def check_save_dir(self, save_dir):
         problem = False
         if save_dir is None:
-            str = "No save_dir is specified in your preferences, thus " + \
+            msg = "No save_dir is specified in your preferences, thus " + \
                   "you won't be able to save images."
             problem = True
         elif os.path.exists(save_dir) == False:
-            str = "The save_dir directory specified in your preferences doesn't exist, thus " + \
+            msg = "The save_dir directory specified in your preferences doesn't exist, thus " + \
                   "you won't be able to save images."
             problem = True
         elif os.path.isdir(save_dir) == False:
-            str = "The save_dir directory specified in your preferences is not a directory, thus " + \
+            msg = "The save_dir directory specified in your preferences is not a directory, thus " + \
                   "you won't be able to save images."
             problem = True
         if problem:
-            dial = wx.MessageDialog(None, str, 'Exclamation', wx.OK | wx.ICON_EXCLAMATION)
+            dial = wx.MessageDialog(None, msg, 'Exclamation', wx.OK | wx.ICON_EXCLAMATION)
             dial.ShowModal()
             
     def commit_changes(self, event, confirmation = True):
