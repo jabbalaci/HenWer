@@ -1,3 +1,5 @@
 old/
 *.pyc
 test-gallery/
+.idea
+cd_venv_dir.sh
