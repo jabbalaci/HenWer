@@ -16,7 +16,7 @@ import config as cfg
 
 def bmp_to_pil(image):
     pil = Image.new('RGB', (image.GetWidth(), image.GetHeight()))
-    pil.fromstring(image.GetData())
+    pil.frombytes(image.GetData())
     return pil
 
 def pil_to_image(pil):
