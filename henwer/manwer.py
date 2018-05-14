@@ -63,7 +63,7 @@ ID_REMOVE_QUEUE = wx.NewId()
 ID_SAVE_IN_DIR = wx.NewId()
 
 ID_FIT_WINDOW = wx.NewId()
-ID_ZOOM_DECREASE = wx.NewId() 
+ID_ZOOM_DECREASE = wx.NewId()
 ID_ZOOM_INCREASE = wx.NewId()
 
 ID_SHOW_SHORT = wx.NewId()
@@ -105,7 +105,7 @@ class MReader(wx.Frame):
             self.Destroy()
         self.check_save_dir(self.save_dir)
         #tbicon = wx.TaskBarIcon()
-        
+
         icon = wx.Icon(imgpath("henwer_logo.ico"), wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
         if resources.get_preferences("Options").get("show_tray", False):
@@ -121,27 +121,27 @@ class MReader(wx.Frame):
         self.save = 1   #0 = do not save
                         #1 = Save in a dir (specified in self.where)
         self.manga = None #the module to use to download the images
-        
+
         self.image = None #self.image is the image displayed in the ImageWindow
         #MENUBAR
         menubar = wx.MenuBar()
         self.menubar = menubar
-        #FILE 
+        #FILE
         file = wx.Menu()
         #FILE > OPEN
         open = wx.Menu()
         #FILE > OPEN > FROM URL
         from_url = wx.MenuItem(open, ID_MENU_OPEN_URL, "Da URL")
-        open.AppendItem(from_url)
+        open.Append(from_url)
         #FILE > OPEN > FROM FILE
         from_dir = wx.MenuItem(open, ID_MENU_OPEN_FILE, "Da file locale")
-        open.AppendItem(from_dir)
-        
-        #file.AppendMenu(0, "&Apri", open)
+        open.Append(from_dir)
+
+        #file.Append(0, "&Apri", open)
         #FILE > QUIT
         quit = wx.MenuItem(file, ID_QUIT, "&Quit")
-        
-        file.AppendItem(quit)
+
+        file.Append(quit)
         #EDIT
         edit = wx.Menu()
         #EDIT > SAVE IN...
@@ -149,8 +149,8 @@ class MReader(wx.Frame):
         #EDIT > SAVE IN > DIR
         dir = wx.MenuItem(save_in, ID_SAVE_IN_DIR, "cartella", kind=wx.ITEM_RADIO)
 
-        save_in.AppendItem(dir)
-        
+        save_in.Append(dir)
+
         #EDIT > ZOOM
         zoom = wx.Menu()
         #EDIT > ZOOM > FIT TO WINDOW SIZE
@@ -159,34 +159,34 @@ class MReader(wx.Frame):
         increase_zoom = wx.MenuItem(zoom, ID_ZOOM_INCREASE, "Aumenta")
         decrease_zoom = wx.MenuItem(zoom, ID_ZOOM_DECREASE, "Diminuisci")
 
-        zoom.AppendItem(increase_zoom)
-        zoom.AppendItem(decrease_zoom)
-        zoom.AppendItem(fit_window)
+        zoom.Append(increase_zoom)
+        zoom.Append(decrease_zoom)
+        zoom.Append(fit_window)
 
-        edit.AppendMenu(3, "Zoom", zoom)
-        edit.AppendMenu(4, "Salva in", save_in)
-        
+        edit.Append(3, "Zoom", zoom)
+        edit.Append(4, "Salva in", save_in)
+
         #SETTINGS
         #settings = wx.Menu()
         #SETTINGS > OPTIONS
         #options = wx.MenuItem(settings, ID_OPTIONS, "Opzioni")
-        
-        #settings.AppendItem(options)
-        
+
+        #settings.Append(options)
+
         #HELP
         help = wx.Menu()
         show_shortcut = wx.MenuItem(help, ID_SHOW_SHORT, "Show &Key Bindings")
         about = wx.MenuItem(help, ID_ABOUT, "&About")
-        
-        help.AppendItem(show_shortcut)
-        help.AppendItem(about)
-        
+
+        help.Append(show_shortcut)
+        help.Append(about)
+
         #OPTIONS
         options = wx.Menu()
         switch_to_local = wx.MenuItem(help, ID_SWITCH_TO_LOCAL, "Switch to &local dir.")
-        
-        options.AppendItem(switch_to_local)
-        
+
+        options.Append(switch_to_local)
+
         #add the menu to the menubar
         menubar.Append(file, "&File")
         menubar.Append(options, "&Options")
@@ -210,7 +210,7 @@ class MReader(wx.Frame):
         self.toolbar.Realize()
         self.SetToolBar(self.toolbar)
         self.toolbar.EnableTool(ID_PREVIOUS, False)
-        self.toolbar.EnableTool(ID_NEXT, False)          
+        self.toolbar.EnableTool(ID_NEXT, False)
         self.toolbar.EnableTool(ID_REMOVE_QUEUE, False)
         self.toolbar.EnableTool(ID_COMMIT, False)
 
@@ -227,14 +227,14 @@ class MReader(wx.Frame):
         self.Bind(wx.EVT_MENU, self.increase_zoom, id=ID_ZOOM_INCREASE)
         self.Bind(wx.EVT_MENU, self.decrease_zoom, id=ID_ZOOM_DECREASE)
         self.Bind(wx.EVT_MENU, self.fit_window_size, id=ID_FIT_WINDOW)
-        
+
         self.Bind(wx.EVT_MENU, self.save_in_dir, id=ID_SAVE_IN_DIR)
-        
+
         #self.Bind(wx.EVT_MENU, self.show_options, id=ID_OPTIONS)
-        
+
         self.Bind(wx.EVT_MENU, self.show_key_bindings, id=ID_SHOW_SHORT)
         self.Bind(wx.EVT_MENU, self.show_about, id=ID_ABOUT)
-        
+
         self.Bind(wx.EVT_MENU, self.switch_to_local_dir, id=ID_SWITCH_TO_LOCAL)
 
         self.Bind(wx.EVT_TOOL, self.open_dir, id=ID_OPEN_DIR)
@@ -245,12 +245,12 @@ class MReader(wx.Frame):
         self.Bind(wx.EVT_TOOL, self.on_previous, id=ID_PREVIOUS)
         self.Bind(wx.EVT_TOOL, self.on_remove_queue, id=ID_REMOVE_QUEUE)
         #self.Bind(wx.EVT_TOOL, self.on_download_all, id=ID_DOWN_ALL)
-        
+
         self.Bind(wx.EVT_MENU, self.on_close, id=ID_QUIT)
         self.Bind(wx.EVT_CLOSE, self.on_close)
-        
+
         self.enable_menu(1, 0, False)
-        
+
         self.Centre()
         self.dc.SetFocus()   # to treat keyboard events
 
@@ -270,10 +270,10 @@ class MReader(wx.Frame):
 
         if self.fullscreen:
             self.toggle_maximize(None)
-    
+
     def toggle_maximize(self, event):
-        self.Maximize(not self.IsMaximized()) 
-    
+        self.Maximize(not self.IsMaximized())
+
     def on_remove_queue(self, event):
         self.n = -1
         self.filelist = []   # will be a list of MyImage objects
@@ -287,49 +287,49 @@ class MReader(wx.Frame):
         self.toolbar.EnableTool(ID_REMOVE_QUEUE, False)
         self.toolbar.EnableTool(ID_COMMIT, False)
         self.enable_menu(1, 0, False)
-    
+
     def enable_menu(self, index, subindex, enable):
         menu = self.GetMenuBar()
         menu.GetMenu(index).FindItemByPosition(subindex).Enable(enable)
-        
+
     def refresh(self):
         self.dc.change_colour(self.backcolour)
-        
+
     def change_background_colour(self, colour):
         self.dc.SetBackgroundColour(colour)
         self.dc.Refresh()
         self.backcolour = colour
-        
+
 #    def show_options(self, event):
 #        #let's show a little options dialog
 #        optdialog.OptionDialog(self, "Manwer | Opzioni")
-    
+
     def on_close(self, event):
         #print sys._getframe().f_code.co_name
         if self.confirm_commit(event) == wx.ID_YES:
             return
         # else
         self.Destroy()
-    
+
     def save_in_dir(self, event):
         #print sys._getframe().f_code.co_name
         dird = wx.DirDialog(self, "Scegli dove salvare...")
         if dird.ShowModal() == wx.ID_OK:
             self.where = dird.GetPath()
             self.save = 1
-    
+
     def show_about(self, event):
         #print sys._getframe().f_code.co_name
         about_dialog = resources.HtmlMessageDialog(self, "HenWer | About", "html/about.html",
                                                    size=(350, 320))
         about_dialog.Center()
         about_dialog.ShowModal()
-        
+
     def switch_to_local_dir(self, event):
         dir_to_open = os.path.join(self.save_dir, self.save_dir_relative)
         self.on_remove_queue(event)
         self.open_dir(event, dir_to_open)
-    
+
     def show_key_bindings(self, event):
         #print sys._getframe().f_code.co_name
         key_dialog = resources.HtmlMessageDialog(self, "HenWer | Key Bindings", "html/key_bindings.html",
@@ -337,16 +337,16 @@ class MReader(wx.Frame):
         key_dialog.Center()
         key_dialog.ShowModal()
         self.dc.SetFocus()   # give back the focus
-    
+
     def fit_window_size(self, event):
         #print sys._getframe().f_code.co_name
         self.dc.fit_window(event)
         self.dc.Refresh()
-    
+
     def open_from_url(self, event):
         #print sys._getframe().f_code.co_name
         self.open_url(event)
-        
+
     def open_from_local_file(self, event):
         #print sys._getframe().f_code.co_name
         self.open_dir(event)
@@ -358,7 +358,7 @@ class MReader(wx.Frame):
             self.img_zoom_percent = self.dc.to_zoom
         except AttributeError:
             wx.MessageDialog(self, NO_MANGA_ERROR, ERROR_CAPTION, style=ERROR_STYLE).ShowModal()
-    
+
     def decrease_zoom(self, event):
         #print sys._getframe().f_code.co_name
         try:
@@ -373,7 +373,7 @@ class MReader(wx.Frame):
         that might result in losing the changes. So notify the user."""
         if commit.there_is_something_to_commit(self):
             msg = "You've made some changes.\nDo you want to commit them?"
-            dial = wx.MessageDialog(None, msg, 'Question', 
+            dial = wx.MessageDialog(None, msg, 'Question',
                                     wx.YES_NO | wx.YES_DEFAULT | wx.ICON_QUESTION)
             if dial.ShowModal() == wx.ID_YES:
                 self.commit_changes(event, confirmation = False)
@@ -385,7 +385,7 @@ class MReader(wx.Frame):
         if self.confirm_commit(event) == wx.ID_YES:
             return
         # else
-        if dir_to_open is None:  
+        if dir_to_open is None:
             dlg = wx.DirDialog(self, "Open local directory...", style=wx.DD_DEFAULT_STYLE)
             if dlg.ShowModal() == wx.ID_OK:
                 self.local_file = 1
@@ -398,7 +398,7 @@ class MReader(wx.Frame):
             path = dir_to_open
         #
         #
-        if self.local_file == 1:    
+        if self.local_file == 1:
             flist = [os.path.join(path, el) for el in os.listdir(path)
                             if os.path.isfile(os.path.join(path, el)) and
                             imghdr.what(os.path.join(path, el)) is not None]
@@ -413,8 +413,8 @@ class MReader(wx.Frame):
                 self.toolbar.EnableTool(ID_REMOVE_QUEUE, True)
                 # jump to the 1st image
                 self.on_next(event)
-        
-#    def open_dir(self, event):  
+
+#    def open_dir(self, event):
 #        dlg = wx.DirDialog(self, "Open local directory...", style=wx.DD_DEFAULT_STYLE)
 #        if dlg.ShowModal() == wx.ID_OK:
 #            self.local_file = 1
@@ -436,7 +436,7 @@ class MReader(wx.Frame):
 #        else:
 #            self.local_file = 0
 #        dlg.Destroy()
-            
+
     def open_url_gallery(self, event):
         if self.confirm_commit(event) == wx.ID_YES:
             return
@@ -455,7 +455,7 @@ class MReader(wx.Frame):
         self.filelist = myimage.MyImageList(flist, self.local_file).get_list()
         self.n = -1
         if len(flist) == 0:
-            dial = wx.MessageDialog(None, 'No images could be extracted.\nThis gallery seems to be empty.', 
+            dial = wx.MessageDialog(None, 'No images could be extracted.\nThis gallery seems to be empty.',
                                     'Exclamation', wx.OK | wx.ICON_EXCLAMATION)
             dial.ShowModal()
             self.on_remove_queue(event)
@@ -465,10 +465,10 @@ class MReader(wx.Frame):
         self.toolbar.EnableTool(ID_NEXT, True)
         self.toolbar.EnableTool(ID_REMOVE_QUEUE, True)
         self.SetTitle('HenWer %s -- %s' % (__version__, self.site))
-        
+
         if len(self.filelist) > 0:   # jump to the 1st image
             self.on_next(event)
-    
+
 #    def open_url(self, event):
 #        #print sys._getframe().f_code.co_name
 #        self.enable_menu(1, 1, True)
@@ -485,7 +485,7 @@ class MReader(wx.Frame):
 #            self.toolbar.EnableTool(ID_REMOVE_QUEUE, True)
 #            self.SetTitle('HenWer %s %s'%(__version__, t))
 #            self.local_file = 0
-#            self.n = -1    
+#            self.n = -1
 
     def on_size(self):
         #print sys._getframe().f_code.co_name
@@ -494,12 +494,12 @@ class MReader(wx.Frame):
             self.statusbar.SetStatusWidths(self.calculate_percent([30, 20, 30, 20]))
         except AttributeError:
             pass
-    
+
     def calculate_percent(self, percent):
         #print sys._getframe().f_code.co_name
-        w = self.GetSizeTuple()[0]
+        w = self.GetSize()[0]
         return [(i*w)/100 for i in percent]
-    
+
     def on_download_all(self, event):
         #print sys._getframe().f_code.co_name
         self.toolbar.EnableTool(ID_DOWN_ALL, False)
@@ -510,11 +510,11 @@ class MReader(wx.Frame):
             return
         # else
         #print sys._getframe().f_code.co_name
-        self.SetCursor(wx.StockCursor(wx.CURSOR_WAIT))
+        self.SetCursor(wx.Cursor(wx.CURSOR_WAIT))
         self.n += 1
         if self.n > 0:
             self.toolbar.EnableTool(ID_PREVIOUS, True)
-        
+
         img = self.filelist[self.n]
         if not self.local_file:   # URL
             #self.toolbar.EnableTool(ID_NEXT, False)
@@ -522,15 +522,15 @@ class MReader(wx.Frame):
             self.image = wx.Image(self.download_to_local(img))
         else: # images are in a local directory
             self.image = wx.Image(img.path)
-        
+
         img.set_attributes(self.image)
         self.set_status_text()
         #self.SetStatusText("Image: %s/%s" % (self.n+1, len(self.filelist)), 1)
         self.paint()
-        self.SetCursor(wx.StockCursor(wx.CURSOR_ARROW))
+        self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
         self.set_arrows()
         self.set_osd_text()
-        
+
     def download_to_local(self, img):
         if self.referer is None:
             urllib.urlretrieve(img.path, img.get_tmp_file_to_save_to())
@@ -538,19 +538,19 @@ class MReader(wx.Frame):
             req = urllib2.Request(img.path)
             req.add_header('Referer', self.referer)
             response = urllib2.urlopen(req)
-            
+
             output = open(img.get_tmp_file_to_save_to(), 'wb')
             output.write(response.read())
             output.close()
-            
+
         return img.get_tmp_file_to_save_to()
-        
-    def set_arrows(self):        
+
+    def set_arrows(self):
         if self.n == 0:
             self.toolbar.EnableTool(ID_PREVIOUS, False)
         if self.n == len(self.filelist) - 1:
             self.toolbar.EnableTool(ID_NEXT, False)
-            
+
     def set_commit(self):
         if commit.there_is_something_to_commit(self):
             self.toolbar.EnableTool(ID_COMMIT, True)
@@ -562,7 +562,7 @@ class MReader(wx.Frame):
             return
         # else
         #print sys._getframe().f_code.co_name
-        self.SetCursor(wx.StockCursor(wx.CURSOR_WAIT))
+        self.SetCursor(wx.Cursor(wx.CURSOR_WAIT))
         self.n -= 1
 
         img = self.filelist[self.n]
@@ -577,10 +577,10 @@ class MReader(wx.Frame):
         self.set_status_text()
         #self.SetStatusText("Image: %s/%s" % (self.n+1, len(self.filelist)), 1)
         self.paint()
-        self.SetCursor(wx.StockCursor(wx.CURSOR_ARROW))
+        self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
         self.set_arrows()
         self.set_osd_text()
-        
+
     def set_status_text(self):
         img = self.filelist[self.n]
         self.SetStatusText("Image: %s/%s" % (self.n+1, len(self.filelist)), 1)
@@ -653,13 +653,13 @@ class MReader(wx.Frame):
         if problem:
             dial = wx.MessageDialog(None, msg, 'Exclamation', wx.OK | wx.ICON_EXCLAMATION)
             dial.ShowModal()
-            
+
     def commit_changes(self, event, confirmation = True):
         comm = commit.Commit(self, event)
         comm.start(confirmation)
         self.set_commit()
         self.set_osd_text()
-    
+
     def paint(self):
         #print sys._getframe().f_code.co_name
         #self.dc = ImageWindow(self, wx.Image(self.path))

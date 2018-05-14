@@ -8,7 +8,7 @@ import resources
 import imageinfo
 import goto
 from cStringIO import StringIO
-import Image # PIL.Image Module
+from PIL import Image
 import random
 from clipboard import text_to_clipboards
 import config as cfg
@@ -18,7 +18,7 @@ def bmp_to_pil(image):
     pil = Image.new('RGB', (image.GetWidth(), image.GetHeight()))
     pil.fromstring(image.GetData())
     return pil
-    
+
 def pil_to_image(pil):
     image = wx.EmptyImage(pil.size[0], pil.size[1])
     image.SetData(pil.convert('RGB').tostring())
@@ -28,7 +28,7 @@ class FileDragDrop(wx.FileDropTarget):
     def __init__(self, win):
         wx.FileDropTarget.__init__(self)
         self.win = win
-    
+
     def OnDropFiles(self, x, y, filenames):
         list = []
         self.win.GetParent().local_file = 1
@@ -52,9 +52,9 @@ class ImageWindow(wx.ScrolledWindow):
         self.must_zoom = 0
         self.show_text = 0
         self.hide_cursor = resources.get_preferences("Schermo intero").get("hide cursor", False)
-        
+
         self.timer = wx.Timer(self, -1)
-        
+
         fdd = FileDragDrop(self)
         self.SetDropTarget(fdd)
 
@@ -69,26 +69,26 @@ class ImageWindow(wx.ScrolledWindow):
         self.Bind(wx.EVT_MOTION, self.mouse_move)
         #self.Bind(wx.EVT_MOUSEWHEEL, self.on_mousewheel)
         #self.Bind(wx.EVT_RIGHT_DOWN, self.onRightDown)
-    
+
     #def onRightDown(self, event):
     #    #print "rightdown"
     #    conMenu = wx.Menu()
     #    zoom = wx.MenuItem(conMenu, 0, "Zoom")
     #    conMenu.AppendItem(zoom)
     #    self.PopupMenu(conMenu)
-    
+
     def clear_dc(self):
         self.image = None
         dc = wx.ClientDC(self)
         dc.Clear()
         #self.SetBackgroundColour(self.GetParent().backcolour)
-    
+
     def mouse_move(self, event):
         #print sys._getframe().f_code.co_name
-        self.SetCursor(wx.StockCursor(wx.CURSOR_ARROW))
+        self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
         if self.hide_cursor and self.GetParent().IsFullScreen():
             wx.CallAfter(self.timer.Start, 2000)
-    
+
     def hide_mouse_cursor(self, event):
         #print sys._getframe().f_code.co_name
         self.SetCursor(wx.StockCursor(wx.CURSOR_BLANK))
@@ -102,7 +102,7 @@ class ImageWindow(wx.ScrolledWindow):
             self.to_zoom = 400
         self.parent.SetStatusText("%s @ %s %%" % (text, self.to_zoom), 3)
         self.zoom(self.to_zoom)
-    
+
     def zoom_out(self, event):
         #print sys._getframe().f_code.co_name
         self.must_zoom = 1
@@ -112,7 +112,7 @@ class ImageWindow(wx.ScrolledWindow):
             self.to_zoom = 10
         self.parent.SetStatusText("%s @ %s %%" % (text, self.to_zoom), 3)
         self.zoom(self.to_zoom)
-        
+
     def zoom_100(self, event):
         #print sys._getframe().f_code.co_name
         self.must_zoom = 1
@@ -120,11 +120,11 @@ class ImageWindow(wx.ScrolledWindow):
         text = self.parent.GetStatusBar().GetStatusText(3).split('@')[0].strip()
         self.parent.SetStatusText("%s @ %s %%" % (text, self.to_zoom), 3)
         self.zoom(self.to_zoom)
-        
+
     def zoom_fit(self, event):
         self.fit_window(event)
         self.zoom(self.to_zoom)
-    
+
     def key_down(self, event):
         #print sys._getframe().f_code.co_name
         # see http://www.wxpython.org/docs/api/wx.KeyEvent-class.html for key codes
@@ -132,7 +132,7 @@ class ImageWindow(wx.ScrolledWindow):
         key_func = { ord('F'):               self.zoom_fit,
                      ord('+'):               self.zoom_in,
                      ord('-'):               self.zoom_out,
-                     ord(']'):               self.zoom_in,                     
+                     ord(']'):               self.zoom_in,
                      ord('['):               self.zoom_out,
                      ord('='):               self.zoom_100,
                      ord('H'):               self.parent.show_key_bindings,
@@ -161,11 +161,11 @@ class ImageWindow(wx.ScrolledWindow):
         else:
             event.Skip()
         #self.Refresh()
-    
+
     def change_colour(self, colour):
         self.SetBackgroundColour(colour)
         self.Refresh()
-    
+
     def toggle_fullscreen(self, event):
         #print sys._getframe().f_code.co_name
         parent = self.GetParent()
@@ -187,7 +187,7 @@ class ImageWindow(wx.ScrolledWindow):
         self.must_zoom = 0
         self.SetScrollbars(5, 5, 0, 0)
         self.Refresh(False)
-        
+
 #    def print_status(self, event):
 #        if self.image is None:
 #            return
@@ -203,7 +203,7 @@ class ImageWindow(wx.ScrolledWindow):
 #        else:
 #            dc.Clear()
 #            #self.Refresh()
-#        
+#
 #        self.show_text = not self.show_text
 
     def copy_abs_path(self, event):
@@ -216,7 +216,7 @@ class ImageWindow(wx.ScrolledWindow):
         text_to_clipboards(img.path)
         #
         self.mark_asterisk(None)
-        
+
     def toggle_to_save(self, event):
         if self.image is None:
             return
@@ -235,7 +235,7 @@ class ImageWindow(wx.ScrolledWindow):
 
         if img.to_save:
             self.parent.on_next(event)
-        
+
     def toggle_to_delete(self, event):
         if self.image is None:
             return
@@ -254,7 +254,7 @@ class ImageWindow(wx.ScrolledWindow):
 
         if img.to_delete:
             self.parent.on_next(event)
-        
+
     def toggle_to_wallpaper(self, event):
         if self.image is None:
             return
@@ -264,7 +264,7 @@ class ImageWindow(wx.ScrolledWindow):
         self.parent.set_status_text()
         self.parent.set_commit()
         self.parent.set_osd_text()
-        
+
     def mark_asterisk(self, event):
         if self.image is None:
             return
@@ -277,15 +277,15 @@ class ImageWindow(wx.ScrolledWindow):
         if cfg.USE_MONGO:
             import mongodb
             mongodb.process(img)
-    
+
     def on_size(self, event):
         #print sys._getframe().f_code.co_name
         if self.image:
             self.Refresh()
         self.parent.on_size()
-    
+
     def on_paint(self, event):
-        w, h = self.GetSizeTuple()
+        w, h = self.GetSize()
         #print sys._getframe().f_code.co_name
         if self.image is not None:
             dc = wx.PaintDC(self)
@@ -304,7 +304,7 @@ class ImageWindow(wx.ScrolledWindow):
         """scale the image so it can fit the screen, leaving about a 2% margin top and bottom"""
         self.image = self.or_image
         #print sys._getframe().f_code.co_name
-        w, h = self.GetSizeTuple()
+        w, h = self.GetSize()
         hi = h - (5*h)/100
         iW = self.image.GetWidth()
         iH = self.image.GetHeight()
@@ -320,11 +320,11 @@ class ImageWindow(wx.ScrolledWindow):
         self.to_zoom = self.img_size_percent
         text = self.parent.GetStatusBar().GetStatusText(3).split('@')[0].strip()
         self.parent.SetStatusText("%s @ %s %%" %(text, self.img_size_percent), 3)
-        
+
     def show_image_info(self, event):
         if self.image is not None:
             imageinfo.ImageInfo(self, -1, 'Image Info', self.parent)
-            
+
     def show_goto_img(self, event):
         if len(self.parent.filelist) == 0:
             return
@@ -337,32 +337,32 @@ class ImageWindow(wx.ScrolledWindow):
         # else
         self.parent.n = self.from_goto-1-1   # -1 because of 0-based index, -1 to step on the previous image
         self.parent.on_next(event)           # step forward to the specified image
-        
+
     def goto_random_img(self, event):
         """Dispatcher."""
         if not cfg.RANDOM_JUMP_TO_UNMARKED:
             self.goto_random_img_classic(event)
         else:
             self.goto_random_img_unmarked(event)
-        
+
     def goto_random_img_classic(self, event):
         """Jump to a random image."""
-        nb_imgs = len(self.parent.filelist)   # number of images 
+        nb_imgs = len(self.parent.filelist)   # number of images
         if nb_imgs in [0, 1]:
             return
         # else
         jump_to = random.randrange(1, nb_imgs+1)   # interval [1, nb_imgs]
         self.parent.n = jump_to-1-1   # -1 because of 0-based index, -1 to step on the previous image
         self.parent.on_next(event)    # step forward to the specified image
-        
+
     def goto_random_img_unmarked(self, event):
         pass
-        
+
     def mark_all_to_be_saved(self, event):
         if len(self.parent.filelist) == 0:
             return
         # else
-        dial = wx.MessageDialog(None, 'Do you want to mark all images to be saved?', 'Question', 
+        dial = wx.MessageDialog(None, 'Do you want to mark all images to be saved?', 'Question',
             wx.YES_NO | wx.YES_DEFAULT | wx.ICON_QUESTION)
         answer = dial.ShowModal()
         if answer == wx.ID_NO:
@@ -373,7 +373,7 @@ class ImageWindow(wx.ScrolledWindow):
         self.parent.set_status_text()
         self.parent.set_commit()
         self.parent.set_osd_text()
-    
+
     def zoom(self, percent, quality="BILINEAR"):
         #print sys._getframe().f_code.co_name
         if self.image:

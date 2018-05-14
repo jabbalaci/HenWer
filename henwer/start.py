@@ -23,7 +23,7 @@ sys.path.insert(0, package_dir_path)
 
 
 def process_command_line_parameter():
-    """HenWer accepts a parameter that can be a directory path. 
+    """HenWer accepts a parameter that can be a directory path.
     HenWer will open then that directory upon startup."""
     if len(sys.argv) > 1:
         if sys.argv[1] == '.':
@@ -42,10 +42,10 @@ if __name__ == "__main__":
     import manwer
     __version__ = manwer.__version__
 
-    class ManWer(wx.PySimpleApp):
+    class ManWer(wx.App):
         def OnInit(self):
             self.frame = manwer.MReader("HenWer %s" % __version__)
-            self.tbicon = wx.TaskBarIcon()        
+            # self.tbicon = wx.TaskBarIcon()
             self.SetTopWindow(self.frame)
             self.SetExitOnFrameDelete(True)
             self.frame.Show()
