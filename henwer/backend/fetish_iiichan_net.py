@@ -4,7 +4,7 @@ import os
 import re
 import urlparse
 from urllib import urlopen
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 site = 'http://fetish.iiichan.net/'       # site's address
 name = 'One Thread, One Fetish'
@@ -23,7 +23,7 @@ def addBaseUrl(elem):
 
 def get_result():
     soup = BeautifulSoup(urlopen(site).read())
-    
+
     list = []   # list of 2-element lists
     for a in soup.findAll('a'):
         if a.has_key('href'):
@@ -36,11 +36,11 @@ def get_result():
                     res = re.search(r'\d{1,2}:.*\(\d+\)$', desc)
                     if res:
                         list.append( [href, desc] )   # we insert 2-element lists
-      
+
     #print list
     list.sort(myComp, reverse=True)
     list = map(addBaseUrl, list)
-    
+
     li = ['MAIN PAGE']   # the list is initialized with the main page
     urls = [site]        # main page of the site
     for link in list:
@@ -52,7 +52,7 @@ def get_result():
     # add main page to the end too
     li.append('MAIN PAGE')
     urls.append(site)
-        
+
     return (li, urls)
 
 

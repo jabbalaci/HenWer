@@ -5,9 +5,9 @@ Project configuration.
 """
 
 # MongoDB
-MONGODB_URL = 'localhost'
+MONGODB_URL = "localhost"
 MONGODB_PORT = 27017
-MONGODB_DB = 'tumblr'
+MONGODB_DB = "tumblr"
 
 USE_MONGO = False
 

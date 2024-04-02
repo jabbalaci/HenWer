@@ -114,7 +114,7 @@ archive = [
 
 def get_result():
     #print archive
-    
+
     li = ['MAIN PAGE']   # the list is initialized with the main page
     urls = [main_site]        # main page of the site
     for e in archive:
@@ -126,7 +126,7 @@ def get_result():
     # add main page to the end too
     li.append('MAIN PAGE')
     urls.append(main_site)
-        
+
     return (li, urls)
 
 def gather_gallery_list():
@@ -155,4 +155,3 @@ def get_relative_save_dir(part1, part2):
 
 if __name__ == "__main__":
     print gather_gallery_list()
-

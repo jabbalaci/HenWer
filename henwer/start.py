@@ -16,7 +16,6 @@
 import os
 import sys
 
-
 package_dir = "lib"
 package_dir_path = os.path.join(os.path.dirname(__file__), package_dir)
 sys.path.insert(0, package_dir_path)
@@ -26,20 +25,23 @@ def process_command_line_parameter():
     """HenWer accepts a parameter that can be a directory path.
     HenWer will open then that directory upon startup."""
     if len(sys.argv) > 1:
-        if sys.argv[1] == '.':
+        if sys.argv[1] == ".":
             sys.argv[1] = os.getcwd()
         elif os.path.isfile(sys.argv[1]):
             sys.argv[1] = os.path.join(os.getcwd(), sys.argv[1])
 
     os.chdir(os.path.dirname(__file__))
+
+
 # process_command_line_parameter
 
-process_command_line_parameter()    # call it
+process_command_line_parameter()  # call it
 
 
 if __name__ == "__main__":
-    import wx
     import manwer
+    import wx
+
     __version__ = manwer.__version__
 
     class ManWer(wx.App):
